@@ -36,8 +36,10 @@ namespace ProjectTracking.Web
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
-            services.AddScoped<IProjectManager, ProjectManager>();
-            services.AddScoped<IEmployeeManager, EmployeeManager>();
+            services.AddScoped<IProjectWriteService, ProjectWriteService>();
+            services.AddScoped<IProjectReadService, ProjectReadService>();
+            services.AddScoped<IEmployeeReadService, EmployeeReadService>();
+            services.AddScoped<IEmployeeWriteService, EmployeeWriteService>();
 
             services.AddSwaggerGen(c =>
             {

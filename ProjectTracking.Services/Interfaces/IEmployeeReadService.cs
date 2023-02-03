@@ -5,11 +5,8 @@ using System.Threading.Tasks;
 
 namespace ProjectTracking.Services.Interfaces
 {
-    public interface IEmployeeManager
+    public interface IEmployeeReadService
     {
-        void Create(Employee employee);
-        void Update(Employee employee);
-        void Delete(Guid id);
         Task<List<Employee>> GetAllEmployees();
         Task<Employee> GetEmployeeById(Guid id);
     }
