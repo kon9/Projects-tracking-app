@@ -8,5 +8,7 @@ namespace ProjectTracking.Services.Interfaces
         void Create(Employee employee);
         void Update(Employee employee);
         void Delete(Guid id);
+        void AssignEmployeeToProject(Guid employeeId, Guid projectId);
+        void RemoveEmployeeFromProject(Guid employeeId, Guid projectId);
     }
 }

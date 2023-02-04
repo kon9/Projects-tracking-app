@@ -35,6 +35,7 @@ namespace ProjectTracking.Data.Repositories
 
         public async Task Update(Project project)
         {
+            //TODO Update project and validation on update
             _context.Projects.Update(project);
             await _context.SaveChangesAsync();
         }

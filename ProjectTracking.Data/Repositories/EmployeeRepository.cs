@@ -35,13 +35,19 @@ namespace ProjectTracking.Data.Repositories
 
         public async Task Update(Employee employee)
         {
-            _context.Employees.Update(employee);
-            await _context.SaveChangesAsync();
+            var existingEmployee = await _context.Employees.FindAsync(employee.Id);
+            if (existingEmployee != null)
+            {
+                existingEmployee.Name = employee.Name;
+                existingEmployee.Surname = employee.Surname;
+                existingEmployee.Email = employee.Email;
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public async Task Delete(Guid id)
+        public async Task Delete(Guid employeeId)
         {
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await _context.Employees.FindAsync(employeeId);
             _context.Employees.Remove(employee);
             await _context.SaveChangesAsync();
         }
@@ -51,5 +57,47 @@ namespace ProjectTracking.Data.Repositories
             return _context.Employees.Any(p => p.Id == id);
         }
 
+        public async Task<List<Project>> GetEmployeeProjects(Guid employeeId)
+        {
+            var employee = await _context.Employees.FindAsync(employeeId);
+            return employee.Projects;
+        }
+
+        public async Task AddEmployeeToProject(Guid employeeId, Guid projectId)
+        {
+            var employee = await _context.Employees.FindAsync(employeeId);
+            var project = await _context.Projects.FindAsync(projectId);
+
+            if (employee == null)
+            {
+                throw new ArgumentException($"Employee with id {employeeId} was not found.");
+            }
+
+            if (project == null)
+            {
+                throw new ArgumentException($"Project with id {projectId} was not found.");
+            }
+
+            employee.Projects.Add(project);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveEmployeeFromProject(Guid employeeId, Guid projectId)
+        {
+            var employee = await _context.Employees.FindAsync(employeeId);
+            var project = await _context.Projects.FindAsync(projectId);
+
+            if (employee == null)
+            {
+                throw new ArgumentException($"Employee with id {employeeId} was not found.");
+            }
+
+            if (project == null)
+            {
+                throw new ArgumentException($"Project with id {projectId} was not found.");
+            }
+            employee.Projects.Remove(project);
+            await _context.SaveChangesAsync();
+        }
     }
 }

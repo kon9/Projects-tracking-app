@@ -10,6 +10,9 @@ namespace ProjectTracking.Data.Repositories.Interfaces
         Task Create(Employee employee);
         Task Update(Employee employee);
         Task Delete(Guid id);
+        Task<List<Project>> GetEmployeeProjects(Guid employeeId);
+        Task AddEmployeeToProject(Guid employeeId, Guid projectId);
+        Task RemoveEmployeeFromProject(Guid employeeId, Guid projectId);
         Task<List<Employee>> GetAll();
         Task<Employee> GetById(Guid id);
         bool Exist(Guid id);

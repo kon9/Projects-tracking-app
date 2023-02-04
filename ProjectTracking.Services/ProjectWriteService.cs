@@ -14,29 +14,19 @@ namespace ProjectTracking.Services
             _projectRepository = projectRepository;
         }
 
-        public void AssignEmployeeToProject(Guid employeeId, Guid projectId)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Create(Project project)
         {
-            throw new NotImplementedException();
+            _projectRepository.Create(project);
         }
 
         public void Delete(Guid id)
         {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveEmployeeFromProject(Guid employeeId, Guid projectId)
-        {
-            throw new NotImplementedException();
+            _projectRepository.Delete(id);
         }
 
         public void Update(Project project)
         {
-            throw new NotImplementedException();
+            _projectRepository.Update(project);
         }
     }
 }

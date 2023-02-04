@@ -7,8 +7,8 @@ namespace ProjectTracking.Services.Interfaces
 {
     public interface IProjectReadService
     {
+        Task<Project> GetProjectById(Guid projectId);
         Task<List<Project>> GetAllProjects();
-        Task<List<Project>> GetAllSortedByPriority(); // added
-        Task<List<Project>> GetProjectsByEmployeeId(Guid employeeId);
+        Task<List<Project>> GetProjectsByDateRange(DateTime startDate, DateTime endDate);
     }
 }
