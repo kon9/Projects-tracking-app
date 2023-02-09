@@ -1,45 +1,45 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using ProjectTracking.Core;
+using ProjectTracking.Core.Common.Mappings;
+using ProjectTracking.Core.Interfaces;
 using ProjectTracking.Data;
-using ProjectTracking.Data.Repositories;
-using ProjectTracking.Data.Repositories.Interfaces;
-using ProjectTracking.Services;
-using ProjectTracking.Services.Interfaces;
+using System.Reflection;
 
 namespace ProjectTracking.Web
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ProjectsDbContext>(options =>
-                    options.UseSqlite(Configuration.GetConnectionString("Sqlite")));
+            services.AddAutoMapper(config =>
+            {
+                config.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly()));
+                config.AddProfile(new AssemblyMappingProfile(typeof(IProjectsDbContext).Assembly));
+            });
+            services.AddApplication();
+            services.AddData(Configuration);
+
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyHeader();
+                    policy.AllowAnyMethod();
+                    policy.AllowAnyOrigin();
+                });
+            });
 
             services.AddControllers();
-            services.AddControllersWithViews()
-                    .AddNewtonsoftJson(options =>
-                    options.SerializerSettings.ReferenceLoopHandling =
-                    Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-
-            services.AddScoped<IProjectRepository, ProjectRepository>();
-            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-
-            services.AddScoped<IProjectWriteService, ProjectWriteService>();
-            services.AddScoped<IProjectReadService, ProjectReadService>();
-            services.AddScoped<IEmployeeReadService, EmployeeReadService>();
-            services.AddScoped<IEmployeeWriteService, EmployeeWriteService>();
 
             services.AddSwaggerGen(c =>
             {
@@ -49,19 +49,18 @@ namespace ProjectTracking.Web
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
-
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProjectTrackingApi v1"));
 
-
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
-            app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseHttpsRedirection();
+            app.UseCors("AllowAll");
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

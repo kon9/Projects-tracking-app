@@ -35,10 +35,10 @@ namespace ProjectTracking.Core.Models
         public List<Employee> Employees { get; set; } = new List<Employee>();
 
         [Column(TypeName = "datetime2")]
-        public DateTime CreationDate { get; set; }
+        public DateTime StartDate { get; set; }
 
         [Column(TypeName = "datetime2")]
-        public DateTime? CompletionDate { get; set; } = null;
+        public DateTime? EndDate { get; set; } = null;
 
     }
 }
