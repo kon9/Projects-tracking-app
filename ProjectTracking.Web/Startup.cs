@@ -29,7 +29,7 @@ namespace ProjectTracking.Web
             services.AddApplication();
             services.AddData(Configuration);
 
-            services.AddCors(opt =>
+            /*services.AddCors(opt =>
             {
                 opt.AddPolicy("AllowAll", policy =>
                 {
@@ -37,7 +37,7 @@ namespace ProjectTracking.Web
                     policy.AllowAnyMethod();
                     policy.AllowAnyOrigin();
                 });
-            });
+            });*/
 
             services.AddControllers();
 
@@ -58,8 +58,7 @@ namespace ProjectTracking.Web
 
             app.UseRouting();
             app.UseHttpsRedirection();
-            app.UseCors("AllowAll");
-            app.UseAuthorization();
+            //app.UseCors("AllowAll");
 
             app.UseEndpoints(endpoints =>
             {

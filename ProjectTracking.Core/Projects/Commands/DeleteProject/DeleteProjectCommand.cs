@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System;
 
-namespace ProjectTracking.Core.Projects.Commands.DeletProject
+namespace ProjectTracking.Core.Projects.Commands.DeleteProject
 {
     public class DeleteProjectCommand : IRequest
     {

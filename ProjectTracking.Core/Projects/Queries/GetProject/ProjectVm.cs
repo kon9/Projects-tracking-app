@@ -20,7 +20,6 @@ namespace ProjectTracking.Core.Projects.Queries.GetProject
 
         public void Mapping(Profile profile)
         {
-            //hm...
             profile.CreateMap<Project, ProjectVm>()
                 .ForMember(projectVm => projectVm.ProjectName,
                 opt => opt.MapFrom(project => project.ProjectName))

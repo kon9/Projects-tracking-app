@@ -22,7 +22,9 @@ namespace ProjectTracking.Core.Projects.Queries.GetProject
 
         public async Task<ProjectVm> Handle(GetProjectQuery request, CancellationToken cancellationToken)
         {
-            var project = _dbContext.Projects.FirstOrDefaultAsync(project => project.Id == request.Id, cancellationToken);
+            var project = await _dbContext.Projects
+                .FirstOrDefaultAsync(project =>
+                project.Id == request.Id, cancellationToken);
 
             if (project == null)
             {

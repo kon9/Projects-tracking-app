@@ -1,17 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProjectTracking.Core.Projects.Queries.GetProject;
 using ProjectTracking.Core.Projects.Queries.GetProjectsList;
+using System;
 using System.Threading.Tasks;
 
 namespace ProjectTracking.Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class ProjectController : BaseController
     {
         [HttpGet]
         public async Task<ActionResult<ProjectListVm>> GetAll()
         {
-            var query = new GetProjectListQuery
+            var query = new GetProjectListQuery { };
+            var vm = await Mediator.Send(query);
+            return Ok(vm);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<ProjectVm>> Get(Guid id)
+        {
+            var query = new GetProjectQuery
             {
+                Id = id,
             };
             var vm = await Mediator.Send(query);
             return Ok(vm);

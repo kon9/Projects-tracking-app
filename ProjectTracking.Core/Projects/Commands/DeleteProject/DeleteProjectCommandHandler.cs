@@ -5,7 +5,7 @@ using ProjectTracking.Core.Models;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ProjectTracking.Core.Projects.Commands.DeletProject
+namespace ProjectTracking.Core.Projects.Commands.DeleteProject
 {
     public class DeleteProjectCommandHandler : IRequestHandler<DeleteProjectCommand>
     {
