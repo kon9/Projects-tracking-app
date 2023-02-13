@@ -31,6 +31,8 @@ namespace ProjectTracking.Core.Projects.Commands.UpdateProject
             project.StartDate = request.StartDate;
             project.EndDate = request.EndDate;
 
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
             return Unit.Value;
         }
     }

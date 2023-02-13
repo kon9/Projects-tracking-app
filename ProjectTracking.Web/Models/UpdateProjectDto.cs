@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using ProjectTracking.Core.Common.Mappings;
-using ProjectTracking.Core.Projects.Commands.CreateProject;
+using ProjectTracking.Core.Projects.Commands.UpdateProject;
 using System;
 
 namespace ProjectTracking.Web.Models
 {
-    public class CreateProjectDto : IMapWith<CreateProjectCommand>
+    public class UpdateProjectDto : IMapWith<UpdateProjectCommand>
     {
+        public Guid Id { get; set; }
         public string ProjectName { get; set; }
         public string CustomerCompanyName { get; set; }
         public string PerformerCompanyName { get; set; }
@@ -16,7 +17,10 @@ namespace ProjectTracking.Web.Models
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CreateProjectDto, CreateProjectCommand>()
+            profile.CreateMap<UpdateProjectDto, UpdateProjectCommand>()
+                .ForMember(projectCommand => projectCommand.Id,
+                    opt =>
+                        opt.MapFrom(projectDto => projectDto.Id))
                 .ForMember(projectCommand => projectCommand.ProjectName,
                     opt =>
                         opt.MapFrom(projectDto => projectDto.ProjectName))
@@ -38,3 +42,4 @@ namespace ProjectTracking.Web.Models
         }
     }
 }
+

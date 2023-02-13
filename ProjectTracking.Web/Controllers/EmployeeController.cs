@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using ProjectTracking.Core.Employees.Commands.AssignEmployeeToProject;
 using ProjectTracking.Core.Employees.Commands.CreateEmployee;
+using ProjectTracking.Core.Employees.Commands.RemoveEmployeeFromProject;
+using ProjectTracking.Core.Employees.Commands.UpdateEmployee;
 using ProjectTracking.Core.Employees.Queries.GetEmployee;
 using ProjectTracking.Web.Models;
 using System;
@@ -28,11 +31,32 @@ namespace ProjectTracking.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Guid>> Create([FromBody] CreateEmployeeDto createEmployeeDto)
+        public async Task<ActionResult<Guid>> Create(CreateEmployeeDto createEmployeeDto)
         {
             var command = _mapper.Map<CreateEmployeeCommand>(createEmployeeDto);
             var employeeId = await Mediator.Send(command);
             return Ok(employeeId);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(UpdateEmployeeDto updateEmployeeDto)
+        {
+            var command = _mapper.Map<UpdateEmployeeCommand>(updateEmployeeDto);
+            await Mediator.Send(command);
+            return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AssignEmployeeToProject(AssignEmployeeToProjectCommand assignEmployee)
+        {
+            await Mediator.Send(assignEmployee);
+            return Ok();
+        }
+        [HttpPost]
+        public async Task<ActionResult> RemoveEmployeeFromProject(RemoveEmployeeFromProjectCommand removeEmployeeCommand)
+        {
+            await Mediator.Send(removeEmployeeCommand);
+            return Ok();
         }
     }
 }
