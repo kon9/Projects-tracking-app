@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using ProjectTracking.Core.Employees.Commands.AssignEmployeeToProject;
-using ProjectTracking.Core.Employees.Commands.CreateEmployee;
-using ProjectTracking.Core.Employees.Commands.RemoveEmployeeFromProject;
-using ProjectTracking.Core.Employees.Commands.UpdateEmployee;
-using ProjectTracking.Core.Employees.Queries.GetEmployee;
+using ProjectTracking.Application.Employees.Commands.AssignEmployeeToProject;
+using ProjectTracking.Application.Employees.Commands.CreateEmployee;
+using ProjectTracking.Application.Employees.Commands.RemoveEmployeeFromProject;
+using ProjectTracking.Application.Employees.Commands.UpdateEmployee;
+using ProjectTracking.Application.Employees.Queries.GetEmployee;
 using ProjectTracking.Web.Models;
 using System;
 using System.Threading.Tasks;
@@ -52,6 +52,7 @@ namespace ProjectTracking.Web.Controllers
             await Mediator.Send(assignEmployee);
             return Ok();
         }
+
         [HttpPost]
         public async Task<ActionResult> RemoveEmployeeFromProject(RemoveEmployeeFromProjectCommand removeEmployeeCommand)
         {

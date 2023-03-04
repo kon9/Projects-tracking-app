@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using ProjectTracking.Core.Projects.Commands.CreateProject;
-using ProjectTracking.Core.Projects.Commands.UpdateProject;
-using ProjectTracking.Core.Projects.Queries.GetProject;
-using ProjectTracking.Core.Projects.Queries.GetProjectsList;
+using ProjectTracking.Application.Projects.Commands.CreateProject;
+using ProjectTracking.Application.Projects.Commands.UpdateProject;
+using ProjectTracking.Application.Projects.Queries.GetProject;
+using ProjectTracking.Application.Projects.Queries.GetProjectsList;
 using ProjectTracking.Web.Models;
 using System;
 using System.Threading.Tasks;
@@ -13,9 +13,9 @@ namespace ProjectTracking.Web.Controllers
     [Route("api/[controller]/[action]")]
     public class ProjectController : BaseController
     {
-
         private readonly IMapper _mapper;
         public ProjectController(IMapper mapper) => _mapper = mapper;
+
         [HttpGet]
         public async Task<ActionResult<ProjectListVm>> GetAll()
         {

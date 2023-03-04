@@ -1,4 +1,5 @@
 ﻿
+using ProjectTracking.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectTracking.Core.Models
 {
-    public class Project
+    public class Project : IIdentifiable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using ProjectTracking.Core.Common.Mappings;
-using ProjectTracking.Core.Projects.Commands.CreateProject;
+using ProjectTracking.Application.Common.Mappings;
+using ProjectTracking.Application.Projects.Commands.CreateProject;
 using System;
 
 namespace ProjectTracking.Web.Models

@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using ProjectTracking.Core;
-using ProjectTracking.Core.Common.Mappings;
+using ProjectTracking.Application;
+using ProjectTracking.Application.Common.Mappings;
 using ProjectTracking.Core.Interfaces;
 using ProjectTracking.Data;
 using System.Reflection;
@@ -26,18 +26,32 @@ namespace ProjectTracking.Web
                 config.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly()));
                 config.AddProfile(new AssemblyMappingProfile(typeof(IProjectsDbContext).Assembly));
             });
+
             services.AddApplication();
             services.AddData(Configuration);
+            services.AddUsers(Configuration);
+            services.AddRepos();
 
-            /*services.AddCors(opt =>
-            {
-                opt.AddPolicy("AllowAll", policy =>
-                {
-                    policy.AllowAnyHeader();
-                    policy.AllowAnyMethod();
-                    policy.AllowAnyOrigin();
-                });
-            });*/
+
+
+
+            /*
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddEntityFrameworkStores<UsersDbContext>();
+
+            services.AddIdentityServer()
+                .AddApiAuthorization<ApplicationUser, UsersDbContext>();
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<UsersDbContext>();
+
+            services.AddAuthentication();
+
+
+            services.AddAuthorization();
+            */
+
+
 
             services.AddControllers();
 

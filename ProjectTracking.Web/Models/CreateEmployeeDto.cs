@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using ProjectTracking.Core.Common.Mappings;
-using ProjectTracking.Core.Employees.Commands.CreateEmployee;
+using ProjectTracking.Application.Common.Mappings;
+using ProjectTracking.Application.Employees.Commands.CreateEmployee;
 
 namespace ProjectTracking.Web.Models
 {
