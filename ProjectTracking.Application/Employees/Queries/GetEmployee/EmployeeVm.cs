@@ -9,9 +9,9 @@ namespace ProjectTracking.Application.Employees.Queries.GetEmployee
         public string Name { get; set; }
         public string Surname { get; set; }
         public string LastName { get; set; }
-        public string Email { get; set; }
+        public string Email { get; set; }/*
         public List<Project> Projects { get; set; } = new List<Project>();
-        public List<ProjectTask> Tasks { get; set; } = new List<ProjectTask>();
+        public List<ProjectTask> Tasks { get; set; } = new List<ProjectTask>();*/
 
         public void Mapping(Profile profile)
         {
@@ -23,11 +23,8 @@ namespace ProjectTracking.Application.Employees.Queries.GetEmployee
                 .ForMember(employeeVm => employeeVm.LastName,
                     opt => opt.MapFrom(employee => employee.LastName))
                 .ForMember(employeeVm => employeeVm.Email,
-                    opt => opt.MapFrom(employee => employee.Email))
-                .ForMember(employeeVm => employeeVm.Projects,
-                    opt => opt.MapFrom(employee => employee.Projects))
-                .ForMember(employeeVm => employeeVm.Tasks,
-                    opt => opt.MapFrom(employee => employee.Tasks));
+                    opt => opt.MapFrom(employee => employee.Email));
+
         }
     }
 }

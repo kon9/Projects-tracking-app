@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectTracking.Core.Models;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace ProjectTracking.Core.Interfaces
+namespace ProjectTracking.Application.Interfaces
 {
     public interface IProjectsDbContext
     {

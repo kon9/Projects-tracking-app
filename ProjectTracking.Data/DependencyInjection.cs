@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ProjectTracking.Application.Interfaces;
 using ProjectTracking.Core.Interfaces;
 using ProjectTracking.Core.Models;
 using ProjectTracking.Data.Repository;
@@ -21,7 +22,7 @@ namespace ProjectTracking.Data
             return services;
         }
 
-        public static IServiceCollection AddUsers(this IServiceCollection services, IConfiguration configuration)
+        /*public static IServiceCollection AddUsers(this IServiceCollection services, IConfiguration configuration)
         {
             var usersConnectionString = configuration.GetConnectionString("Users");
 
@@ -29,11 +30,11 @@ namespace ProjectTracking.Data
                 options.UseSqlServer(usersConnectionString));
 
             return services;
-        }
+        }*/
 
         public static IServiceCollection AddRepos(this IServiceCollection services)
         {
-            services.AddTransient<IRepo<Project>, ProjectsRepo>();
+            services.AddTransient<IEmployeeRepo, EmployeeRepo>();
             services.AddTransient<IRepo<Employee>, EmployeeRepo>();
             services.AddTransient<IRepo<ProjectTask>, ProjectTasksRepo>();
             return services;

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using ProjectTracking.Core.Interfaces;
+﻿using ProjectTracking.Core.Interfaces;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -27,7 +26,6 @@ namespace ProjectTracking.Core.Models
 
         [Required]
         public Guid TaskAuthorId { get; set; }
-
         public Guid TaskCompleterId { get; set; }
         public TaskStatus Status { get; set; }
 

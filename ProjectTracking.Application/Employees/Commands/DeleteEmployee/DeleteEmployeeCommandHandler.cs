@@ -1,28 +1,30 @@
 ﻿using MediatR;
 using ProjectTracking.Application.Common.Exeptions;
-using ProjectTracking.Core.Interfaces;
+using ProjectTracking.Application.Interfaces;
 using ProjectTracking.Core.Models;
 
 namespace ProjectTracking.Application.Employees.Commands.DeleteEmployee
 {
     public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand>
     {
-        private readonly IProjectsDbContext _dbContext;
+        private readonly IEmployeeRepo _employeeRepo;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteEmployeeCommandHandler(IProjectsDbContext dbContext)
+        public DeleteEmployeeCommandHandler(IEmployeeRepo employeeRepo, IUnitOfWork unitOfWork)
         {
-            _dbContext = dbContext;
+            _employeeRepo = employeeRepo;
+            _unitOfWork = unitOfWork;
         }
-        public async Task Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
         {
-            var employee = await _dbContext.Employees.FindAsync(new object[] { request.Id }, cancellationToken);
+            var employee = await _employeeRepo.GetOneAsync(request.Id, cancellationToken);
 
-            if (employee == null)
-            {
-                throw new NotFoundException(nameof(Employee), request.Id);
-            }
-            _dbContext.Employees.Remove(employee);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            if (employee == null) throw new NotFoundException(nameof(Employee), request.Id);
+
+            await _employeeRepo.DeleteAsync(request.Id);
+            await _unitOfWork.SaveAsync(cancellationToken);
+
+            return Unit.Value;
         }
 
     }

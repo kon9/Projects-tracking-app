@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectTracking.Data", "Pro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectTracking.Application", "ProjectTracking.Application\ProjectTracking.Application.csproj", "{BC0ABC5F-7566-4B56-A640-F4B820B587CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTracking.Web.NotBroken", "ProjectTracking.Web.NotBroken\ProjectTracking.Web.NotBroken.csproj", "{B05C0863-7303-48B6-91B6-02FBF116FF87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{BC0ABC5F-7566-4B56-A640-F4B820B587CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC0ABC5F-7566-4B56-A640-F4B820B587CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC0ABC5F-7566-4B56-A640-F4B820B587CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B05C0863-7303-48B6-91B6-02FBF116FF87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B05C0863-7303-48B6-91B6-02FBF116FF87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B05C0863-7303-48B6-91B6-02FBF116FF87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B05C0863-7303-48B6-91B6-02FBF116FF87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

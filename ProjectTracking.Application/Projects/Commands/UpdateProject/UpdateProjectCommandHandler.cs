@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ProjectTracking.Application.Common.Exeptions;
+using ProjectTracking.Application.Interfaces;
 using ProjectTracking.Core.Interfaces;
 using ProjectTracking.Core.Models;
 
@@ -13,7 +14,7 @@ namespace ProjectTracking.Application.Projects.Commands.UpdateProject
         {
             _dbContext = dbContext;
         }
-        public async Task Handle(UpdateProjectCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateProjectCommand request, CancellationToken cancellationToken)
         {
             var project = await _dbContext.Projects.FirstOrDefaultAsync(project => project.Id == request.Id);
             if (project == null)
@@ -31,6 +32,7 @@ namespace ProjectTracking.Application.Projects.Commands.UpdateProject
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
+            return Unit.Value;
         }
     }
 }

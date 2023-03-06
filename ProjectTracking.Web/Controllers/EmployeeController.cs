@@ -38,7 +38,7 @@ namespace ProjectTracking.Web.Controllers
             return Ok(employeeId);
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> Update(UpdateEmployeeDto updateEmployeeDto)
         {
             var command = _mapper.Map<UpdateEmployeeCommand>(updateEmployeeDto);

@@ -1,14 +1,18 @@
 ﻿using MediatR;
-using ProjectTracking.Core.Interfaces;
+using ProjectTracking.Application.Interfaces;
 using ProjectTracking.Core.Models;
 
 namespace ProjectTracking.Application.Employees.Commands.CreateEmployee
 {
     public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeCommand, Guid>
     {
-        private readonly IProjectsDbContext _dbContext;
-        public CreateEmployeeCommandHandler(IProjectsDbContext dbContext) =>
-            _dbContext = dbContext;
+        private readonly IEmployeeRepo _employeeRepo;
+        private readonly IUnitOfWork _unitOfWork;
+        public CreateEmployeeCommandHandler(IEmployeeRepo employeeRepo, IUnitOfWork unitOfWork)
+        {
+            _employeeRepo = employeeRepo;
+            _unitOfWork = unitOfWork;
+        }
 
         public async Task<Guid> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
         {
@@ -21,8 +25,8 @@ namespace ProjectTracking.Application.Employees.Commands.CreateEmployee
                 Email = request.Email,
             };
 
-            await _dbContext.Employees.AddAsync(employee, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _employeeRepo.AddAsync(employee, cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationToken);
             return employee.Id;
         }
     }

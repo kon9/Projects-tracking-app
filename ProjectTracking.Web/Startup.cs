@@ -5,8 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using ProjectTracking.Application;
 using ProjectTracking.Application.Common.Mappings;
-using ProjectTracking.Core.Interfaces;
+using ProjectTracking.Application.Interfaces;
 using ProjectTracking.Data;
+using ProjectTracking.Data.Repository;
 using System.Reflection;
 
 namespace ProjectTracking.Web
@@ -18,7 +19,6 @@ namespace ProjectTracking.Web
         {
             Configuration = configuration;
         }
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(config =>
@@ -29,11 +29,12 @@ namespace ProjectTracking.Web
 
             services.AddApplication();
             services.AddData(Configuration);
-            services.AddUsers(Configuration);
             services.AddRepos();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            // Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Identity.IdentityGeneratorTemplateModel2;
 
-
+            services.AddControllersWithViews();
 
             /*
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)

@@ -1,21 +1,23 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
 using ProjectTracking.Application.Common.Exeptions;
-using ProjectTracking.Core.Interfaces;
+using ProjectTracking.Application.Interfaces;
 using ProjectTracking.Core.Models;
 
 namespace ProjectTracking.Application.Employees.Commands.UpdateEmployee
 {
     public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand>
     {
-        private readonly IProjectsDbContext _dbContext;
-        public UpdateEmployeeCommandHandler(IProjectsDbContext dbContext)
+        private readonly IEmployeeRepo _employeeRepo;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public UpdateEmployeeCommandHandler(IEmployeeRepo employeeRepo, IUnitOfWork unitOfWork)
         {
-            _dbContext = dbContext;
+            _employeeRepo = employeeRepo;
+            _unitOfWork = unitOfWork;
         }
-        public async Task Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
         {
-            var employee = await _dbContext.Employees.FirstOrDefaultAsync(employee => employee.Id == request.Id, cancellationToken: cancellationToken);
+            var employee = await _employeeRepo.GetOneAsync(request.Id, cancellationToken);
             if (employee == null)
             {
                 throw new NotFoundException(nameof(Employee), request.Id);
@@ -26,7 +28,9 @@ namespace ProjectTracking.Application.Employees.Commands.UpdateEmployee
             employee.LastName = request.LastName;
             employee.Email = request.Email;
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationToken);
+
+            return Unit.Value;
         }
     }
 }

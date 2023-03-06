@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProjectTracking.Core.Interfaces;
+using ProjectTracking.Application.Interfaces;
 using ProjectTracking.Core.Models;
 
 namespace ProjectTracking.Data

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using ProjectTracking.Application.Common.Exeptions;
+using ProjectTracking.Application.Interfaces;
 using ProjectTracking.Core.Interfaces;
 using ProjectTracking.Core.Models;
 
@@ -14,7 +15,7 @@ namespace ProjectTracking.Application.Projects.Commands.DeleteProject
             _dbContext = dbContext;
         }
 
-        public async Task Handle(DeleteProjectCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteProjectCommand request, CancellationToken cancellationToken)
         {
             var project = await _dbContext.Projects.FindAsync(new object[] { request.Id }, cancellationToken);
 
@@ -24,6 +25,8 @@ namespace ProjectTracking.Application.Projects.Commands.DeleteProject
             }
             _dbContext.Projects.Remove(project);
             await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return Unit.Value;
         }
     }
 }
