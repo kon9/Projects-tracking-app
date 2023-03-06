@@ -72,10 +72,10 @@ public abstract class BaseRepo<T> : IRepo<T> where T : class, IIdentifiable, new
         return await Task.Run(() => Table.FirstOrDefault(entity => entity.Id == id));// Todo Task.run, cancellation token, ambiguous invocation
     }
 
-    public virtual async Task<IQueryable> GetAllAsync() => Table.AsSingleQuery();
-    public virtual async Task<IQueryable> GetAllAsync(CancellationToken cancellationToken)
+    public virtual async Task<IEnumerable<T>> GetAllAsync() => await Table.AsSingleQuery();
+    public virtual async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return Table.AsSingleQuery();
+        return await Table.ToListAsync(cancellationToken);
     }
 
     public virtual Task<List<T>> FindByAsync(Expression<Func<T, bool>> predicate) => Table.Where(predicate).ToListAsync();

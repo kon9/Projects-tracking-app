@@ -1,6 +1,9 @@
-﻿namespace ProjectTracking.Application.Interfaces;
+﻿using ProjectTracking.Core.Interfaces;
+using ProjectTracking.Core.Models;
 
-public interface IProjectRepo
+namespace ProjectTracking.Application.Interfaces;
+
+public interface IProjectRepo : IRepo<Project>
 {
 
 }
