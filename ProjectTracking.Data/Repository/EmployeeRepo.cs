@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProjectTracking.Application.Common.Exeptions;
+using ProjectTracking.Application.Infrastructure.Exeptions;
 using ProjectTracking.Application.Interfaces;
 using ProjectTracking.Core.Models;
 using System;
@@ -16,6 +16,7 @@ public class EmployeeRepo : BaseRepo<Employee>, IEmployeeRepo
         Table = Context.Employees;
     }
 
+
     public async Task AssignEmployeeToProjectAsync(Guid employeeId, Guid projectId, CancellationToken cancellationToken)
     {
         var employee = await Context.Employees.FirstOrDefaultAsync(employee => employee.Id == employeeId, cancellationToken);
@@ -25,7 +26,6 @@ public class EmployeeRepo : BaseRepo<Employee>, IEmployeeRepo
             throw new NotFoundException(nameof(Project), projectId);
         if (employee == null)
             throw new NotFoundException(nameof(Employee), employeeId);
-
 
         var employeeProjects = employee.Projects;
         if (employeeProjects.Any(ep => ep.Id == project.Id))
@@ -42,7 +42,6 @@ public class EmployeeRepo : BaseRepo<Employee>, IEmployeeRepo
 
         var employee = await Context.Employees.FindAsync(employeeId);
         if (employee == null) throw new NotFoundException(nameof(Employee), employeeId);
-
 
         project.Employees.Remove(employee);
     }

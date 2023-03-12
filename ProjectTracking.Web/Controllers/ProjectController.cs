@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjectTracking.Application.Projects.Commands.CreateProject;
 using ProjectTracking.Application.Projects.Commands.UpdateProject;
+using ProjectTracking.Application.Projects.Models;
 using ProjectTracking.Application.Projects.Queries.GetProject;
 using ProjectTracking.Application.Projects.Queries.GetProjectsList;
-using ProjectTracking.Web.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using ProjectViewModel = ProjectTracking.Application.Projects.Queries.GetProjectsList.ProjectViewModel;
 
 namespace ProjectTracking.Web.Controllers
 {
@@ -17,11 +19,9 @@ namespace ProjectTracking.Web.Controllers
         public ProjectController(IMapper mapper) => _mapper = mapper;
 
         [HttpGet]
-        public async Task<ActionResult<ProjectListVm>> GetAll()
+        public async Task<ActionResult<List<ProjectViewModel>>> GetAll([FromQuery] GetProjectListQuery query)
         {
-            var query = new GetProjectListQuery();
-            var vm = await Mediator.Send(query);
-            return Ok(vm);
+            return Ok(await Mediator.Send(query));
         }
 
         [HttpGet]

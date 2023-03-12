@@ -1,4 +1,4 @@
-﻿namespace ProjectTracking.Application.Common.Exeptions
+﻿namespace ProjectTracking.Application.Infrastructure.Exeptions
 {
     public class NotFoundException : Exception
     {

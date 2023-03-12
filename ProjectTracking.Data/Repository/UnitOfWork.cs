@@ -12,6 +12,6 @@ public class UnitOfWork : IUnitOfWork
 
     public Task<int> SaveAsync(CancellationToken cancellationToken)
     {
-        return this.context.SaveChangesAsync(cancellationToken);
+        return context.SaveChangesAsync(cancellationToken);
     }
 }

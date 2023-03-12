@@ -1,8 +1,9 @@
-﻿using ProjectTracking.Core.Models;
+﻿using ProjectTracking.Application.Interfaces;
+using ProjectTracking.Core.Models;
 
 namespace ProjectTracking.Data.Repository;
 
-public class ProjectTasksRepo : BaseRepo<ProjectTask>
+public class ProjectTasksRepo : BaseRepo<ProjectTask>, IProjectTaskRepo
 {
     public ProjectTasksRepo(ProjectsDbContext context) : base(context)
     {

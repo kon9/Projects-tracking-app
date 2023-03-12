@@ -7,10 +7,14 @@ namespace ProjectTracking.Application.Projects.Commands.CreateProject
 {
     public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand, Guid>
     {
-        private readonly IProjectsDbContext _dbContext;
-        public CreateProjectCommandHandler(IProjectsDbContext dbContext) =>
-            _dbContext = dbContext;
+        private readonly IProjectRepo _projectRepo;
+        private readonly IUnitOfWork _unitOfWork;
 
+        public CreateProjectCommandHandler(IProjectRepo projectRepo, IUnitOfWork unitOfWork)
+        {
+            _projectRepo = projectRepo;
+            _unitOfWork = unitOfWork;
+        }
 
         public async Task<Guid> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
         {
@@ -24,9 +28,8 @@ namespace ProjectTracking.Application.Projects.Commands.CreateProject
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,
             };
-
-            await _dbContext.Projects.AddAsync(project, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _projectRepo.AddAsync(project, cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationToken);
             return project.Id;
         }
     }

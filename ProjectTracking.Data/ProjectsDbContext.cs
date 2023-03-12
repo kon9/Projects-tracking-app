@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProjectTracking.Application.Interfaces;
 using ProjectTracking.Core.Models;
 
 namespace ProjectTracking.Data
 {
-    public class ProjectsDbContext : DbContext, IProjectsDbContext
+    public class ProjectsDbContext : DbContext
     {
         public ProjectsDbContext(DbContextOptions<ProjectsDbContext> options) : base(options) { }
 

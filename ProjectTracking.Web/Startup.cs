@@ -4,11 +4,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using ProjectTracking.Application;
-using ProjectTracking.Application.Common.Mappings;
+using ProjectTracking.Application.Infrastructure.Mappings.Base;
 using ProjectTracking.Application.Interfaces;
 using ProjectTracking.Data;
 using ProjectTracking.Data.Repository;
-using System.Reflection;
 
 namespace ProjectTracking.Web
 {
@@ -21,40 +20,14 @@ namespace ProjectTracking.Web
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(config =>
-            {
-                config.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly()));
-                config.AddProfile(new AssemblyMappingProfile(typeof(IProjectsDbContext).Assembly));
-            });
+            services.AddAutoMapper(typeof(IAutomapper));
 
             services.AddApplication();
             services.AddData(Configuration);
             services.AddRepos();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            // Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Identity.IdentityGeneratorTemplateModel2;
-
             services.AddControllersWithViews();
-
-            /*
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<UsersDbContext>();
-
-            services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, UsersDbContext>();
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<UsersDbContext>();
-
-            services.AddAuthentication();
-
-
-            services.AddAuthorization();
-            */
-
-
-
-            services.AddControllers();
 
             services.AddSwaggerGen(c =>
             {
@@ -73,7 +46,6 @@ namespace ProjectTracking.Web
 
             app.UseRouting();
             app.UseHttpsRedirection();
-            //app.UseCors("AllowAll");
 
             app.UseEndpoints(endpoints =>
             {

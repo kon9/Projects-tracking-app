@@ -1,8 +1,6 @@
-﻿using MediatR;
-
-namespace ProjectTracking.Application.Projects.Commands.UpdateProject
+﻿namespace ProjectTracking.Application.Projects.Models
 {
-    public class UpdateProjectCommand : IRequest
+    public class UpdateProjectDto
     {
         public Guid Id { get; set; }
         public string ProjectName { get; set; }
@@ -15,3 +13,4 @@ namespace ProjectTracking.Application.Projects.Commands.UpdateProject
 
     }
 }
+

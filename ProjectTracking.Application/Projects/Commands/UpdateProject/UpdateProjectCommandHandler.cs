@@ -1,6 +1,6 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using ProjectTracking.Application.Common.Exeptions;
+﻿using AutoMapper;
+using MediatR;
+using ProjectTracking.Application.Infrastructure.Exeptions;
 using ProjectTracking.Application.Interfaces;
 using ProjectTracking.Core.Interfaces;
 using ProjectTracking.Core.Models;
@@ -9,28 +9,26 @@ namespace ProjectTracking.Application.Projects.Commands.UpdateProject
 {
     public class UpdateProjectCommandHandler : IRequestHandler<UpdateProjectCommand>
     {
-        private readonly IProjectsDbContext _dbContext;
-        public UpdateProjectCommandHandler(IProjectsDbContext dbContext)
+        private readonly IProjectRepo _projectRepo;
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public UpdateProjectCommandHandler(IMapper mapper, IProjectRepo projectRepo, IUnitOfWork unitOfWork)
         {
-            _dbContext = dbContext;
+            _mapper = mapper;
+            _projectRepo = projectRepo;
+            _unitOfWork = unitOfWork;
         }
         public async Task<Unit> Handle(UpdateProjectCommand request, CancellationToken cancellationToken)
         {
-            var project = await _dbContext.Projects.FirstOrDefaultAsync(project => project.Id == request.Id);
+            var project = await _projectRepo.GetOneAsync(request.Id, cancellationToken);
             if (project == null)
             {
                 throw new NotFoundException(nameof(Project), request.Id);
             }
 
-            project.ProjectName = request.ProjectName;
-            project.CustomerCompanyName = request.CustomerCompanyName;
-            project.PerformerCompanyName = request.PerformerCompanyName;
-            project.ProjectPriority = request.ProjectPriority;
-            project.ProjectManagerId = request.ProjectManagerId;
-            project.StartDate = request.StartDate;
-            project.EndDate = request.EndDate;
-
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            _mapper.Map(request, project);
+            await _unitOfWork.SaveAsync(cancellationToken);
 
             return Unit.Value;
         }

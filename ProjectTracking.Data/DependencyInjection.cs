@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectTracking.Application.Interfaces;
-using ProjectTracking.Core.Interfaces;
-using ProjectTracking.Core.Models;
 using ProjectTracking.Data.Repository;
 
 namespace ProjectTracking.Data
@@ -17,7 +15,7 @@ namespace ProjectTracking.Data
             services.AddDbContext<ProjectsDbContext>(options =>
                 options.UseSqlServer(projectsConnectionString));
 
-            services.AddScoped<IProjectsDbContext>(provider => provider.GetService<ProjectsDbContext>());
+            //services.AddScoped<IProjectsDbContext>(provider => provider.GetService<ProjectsDbContext>());
 
             return services;
         }
@@ -35,8 +33,8 @@ namespace ProjectTracking.Data
         public static IServiceCollection AddRepos(this IServiceCollection services)
         {
             services.AddTransient<IEmployeeRepo, EmployeeRepo>();
-            services.AddTransient<IRepo<Employee>, EmployeeRepo>();
-            services.AddTransient<IRepo<ProjectTask>, ProjectTasksRepo>();
+            services.AddTransient<IProjectRepo, ProjectsRepo>();
+            services.AddTransient<IProjectTaskRepo, ProjectTasksRepo>();
             return services;
         }
 

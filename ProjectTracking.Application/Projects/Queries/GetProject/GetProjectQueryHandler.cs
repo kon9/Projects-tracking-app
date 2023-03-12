@@ -1,34 +1,31 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using ProjectTracking.Application.Common.Exeptions;
+using ProjectTracking.Application.Infrastructure.Exeptions;
 using ProjectTracking.Application.Interfaces;
-using ProjectTracking.Core.Interfaces;
 using ProjectTracking.Core.Models;
 
 namespace ProjectTracking.Application.Projects.Queries.GetProject
 {
     public class GetProjectQueryHandler : IRequestHandler<GetProjectQuery, ProjectVm>
     {
-        private readonly IProjectsDbContext _dbContext;
+        private readonly IProjectRepo _projectRepo;
         private readonly IMapper _mapper;
 
-        public GetProjectQueryHandler(IProjectsDbContext dbContext, IMapper mapper)
+        public GetProjectQueryHandler(IMapper mapper, IProjectRepo projectRepo)
         {
-            _dbContext = dbContext;
             _mapper = mapper;
+            _projectRepo = projectRepo;
         }
 
         public async Task<ProjectVm> Handle(GetProjectQuery request, CancellationToken cancellationToken)
         {
-            var project = await _dbContext.Projects
-                .FirstOrDefaultAsync(project =>
-                project.Id == request.Id, cancellationToken);
 
+            var project = await _projectRepo.GetProjectWithEmployees(request.Id);
             if (project == null)
             {
                 throw new NotFoundException(nameof(Project), request.Id);
             }
+
             return _mapper.Map<ProjectVm>(project);
         }
     }

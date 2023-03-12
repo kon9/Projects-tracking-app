@@ -1,6 +1,6 @@
-﻿namespace ProjectTracking.Application.Employees.Queries.GetEmployee
+﻿namespace ProjectTracking.Application.Employees.Models
 {
-    public class EmployeeVm
+    public class CreateEmployeeDto
     {
         public string Name { get; set; }
         public string Surname { get; set; }

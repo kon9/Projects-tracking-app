@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using ProjectTracking.Application.Common.Exeptions;
+using ProjectTracking.Application.Infrastructure.Exeptions;
 using ProjectTracking.Application.Interfaces;
 using ProjectTracking.Core.Models;
 

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using ProjectTracking.Application.Interfaces;
+using ProjectTracking.Core.Interfaces;
 
 namespace ProjectTracking.Application.Employees.Commands.AssignEmployeeToProject
 {

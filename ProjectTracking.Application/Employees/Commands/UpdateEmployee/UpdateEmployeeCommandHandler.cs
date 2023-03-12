@@ -1,6 +1,8 @@
-﻿using MediatR;
-using ProjectTracking.Application.Common.Exeptions;
+﻿using AutoMapper;
+using MediatR;
+using ProjectTracking.Application.Infrastructure.Exeptions;
 using ProjectTracking.Application.Interfaces;
+using ProjectTracking.Core.Interfaces;
 using ProjectTracking.Core.Models;
 
 namespace ProjectTracking.Application.Employees.Commands.UpdateEmployee
@@ -9,11 +11,13 @@ namespace ProjectTracking.Application.Employees.Commands.UpdateEmployee
     {
         private readonly IEmployeeRepo _employeeRepo;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public UpdateEmployeeCommandHandler(IEmployeeRepo employeeRepo, IUnitOfWork unitOfWork)
+        public UpdateEmployeeCommandHandler(IEmployeeRepo employeeRepo, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _employeeRepo = employeeRepo;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         public async Task<Unit> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
         {
@@ -22,14 +26,8 @@ namespace ProjectTracking.Application.Employees.Commands.UpdateEmployee
             {
                 throw new NotFoundException(nameof(Employee), request.Id);
             }
-
-            employee.Name = request.Name;
-            employee.Surname = request.Surname;
-            employee.LastName = request.LastName;
-            employee.Email = request.Email;
-
+            _mapper.Map(request, employee);
             await _unitOfWork.SaveAsync(cancellationToken);
-
             return Unit.Value;
         }
     }

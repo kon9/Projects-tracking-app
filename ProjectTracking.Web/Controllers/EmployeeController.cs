@@ -4,8 +4,8 @@ using ProjectTracking.Application.Employees.Commands.AssignEmployeeToProject;
 using ProjectTracking.Application.Employees.Commands.CreateEmployee;
 using ProjectTracking.Application.Employees.Commands.RemoveEmployeeFromProject;
 using ProjectTracking.Application.Employees.Commands.UpdateEmployee;
+using ProjectTracking.Application.Employees.Models;
 using ProjectTracking.Application.Employees.Queries.GetEmployee;
-using ProjectTracking.Web.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -22,20 +22,15 @@ namespace ProjectTracking.Web.Controllers
         [HttpGet]
         public async Task<ActionResult<EmployeeVm>> Get(Guid id)
         {
-            var query = new GetEmployeeQuery
-            {
-                Id = id,
-            };
-            var vm = await Mediator.Send(query);
-            return Ok(vm);
+            var query = new GetEmployeeQuery { Id = id, };
+            return Ok(await Mediator.Send(query));
         }
 
         [HttpPost]
         public async Task<ActionResult<Guid>> Create(CreateEmployeeDto createEmployeeDto)
         {
             var command = _mapper.Map<CreateEmployeeCommand>(createEmployeeDto);
-            var employeeId = await Mediator.Send(command);
-            return Ok(employeeId);
+            return Ok(await Mediator.Send(command));
         }
 
         [HttpPut]

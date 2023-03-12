@@ -12,21 +12,20 @@ namespace ProjectTracking.Data.Repository;
 
 public abstract class BaseRepo<T> : IRepo<T> where T : class, IIdentifiable, new()
 {
+    public ProjectsDbContext Context { get; init; }
+    protected DbSet<T> Table;
+
     public BaseRepo(ProjectsDbContext context)
     {
         Context = context;
     }
-
-    public ProjectsDbContext Context { get; init; }
-
-    protected DbSet<T> Table;
-
 
     public async Task<Guid> AddAsync(T entity)
     {
         await Table.AddAsync(entity);
         return entity.Id;
     }
+
     public async Task<Guid> AddAsync(T entity, CancellationToken cancellationToken)
     {
         await Table.AddAsync(entity, cancellationToken);
@@ -40,6 +39,7 @@ public abstract class BaseRepo<T> : IRepo<T> where T : class, IIdentifiable, new
         var result = new List<Guid>(entities.Select(e => e.Id));
         return result;
     }
+
     public async Task<IEnumerable<Guid>> AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken)
     {
         await Table.AddRangeAsync(entities, cancellationToken);
@@ -56,8 +56,8 @@ public abstract class BaseRepo<T> : IRepo<T> where T : class, IIdentifiable, new
         {
             Context.Entry(entity).State = EntityState.Deleted;
         }
-
     }
+
     public async Task DeleteRangeAsync(IEnumerable<Guid> ids)
     {
         foreach (var id in ids)
@@ -66,27 +66,44 @@ public abstract class BaseRepo<T> : IRepo<T> where T : class, IIdentifiable, new
         }
     }
 
-    public virtual async Task<T> GetOneAsync(Guid id) => await Task.Run(() => Table.FirstOrDefault(entity => entity.Id == id));
-    public virtual async Task<T> GetOneAsync(Guid id, CancellationToken cancellationToken)
+    public virtual async Task<T> GetOneAsync(Guid id)
     {
-        return await Task.Run(() => Table.FirstOrDefault(entity => entity.Id == id));// Todo Task.run, cancellation token, ambiguous invocation
+        return await Task.Run(() => Table.FirstOrDefault(entity => entity.Id == id));
     }
 
-    public virtual async Task<IEnumerable<T>> GetAllAsync() => await Table.AsSingleQuery();
-    public virtual async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken)
+    public virtual async Task<T> GetOneAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return Table.FirstOrDefault(entity => entity.Id == id); // Todo Task.run, cancellation token, ambiguous invocation
+    }
+
+    public virtual async Task<List<T>> GetAllAsync()
+    {
+        return await Table.ToListAsync();
+    }
+
+    public virtual async Task<List<T>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await Table.ToListAsync(cancellationToken);
     }
 
-    public virtual Task<List<T>> FindByAsync(Expression<Func<T, bool>> predicate) => Table.Where(predicate).ToListAsync();
-    public virtual Task<List<T>> FindByAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken) => Table.Where(predicate).ToListAsync(cancellationToken);
+    public virtual Task<List<T>> FindByAsync(Expression<Func<T, bool>> predicate)
+    {
+        return Table.Where(predicate).ToListAsync();
+    }
 
+    public virtual Task<List<T>> FindByAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
+    {
+        return Table.Where(predicate).ToListAsync(cancellationToken);
+    }
 
-    public virtual Task<T> FindUniqueAsync(Expression<Func<T, bool>> predicate) => Table.FirstOrDefaultAsync(predicate);
-    public virtual Task<T> FindUniqueAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken) => Table.FirstOrDefaultAsync(predicate, cancellationToken);
+    public virtual Task<T> FindUniqueAsync(Expression<Func<T, bool>> predicate)
+    {
+        return Table.FirstOrDefaultAsync(predicate);
+    }
 
-    public virtual Task<bool> ExistAsync(Expression<Func<T, bool>> predicate) => Table.AnyAsync(predicate);
-    public virtual Task<bool> ExistAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken) => Table.AnyAsync(predicate, cancellationToken);
-
+    public virtual Task<T> FindUniqueAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
+    {
+        return Table.FirstOrDefaultAsync(predicate, cancellationToken);
+    }
 }
 

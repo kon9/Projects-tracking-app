@@ -1,6 +1,7 @@
 ﻿using MediatR;
-using ProjectTracking.Application.Common.Exeptions;
+using ProjectTracking.Application.Infrastructure.Exeptions;
 using ProjectTracking.Application.Interfaces;
+using ProjectTracking.Core.Interfaces;
 using ProjectTracking.Core.Models;
 
 namespace ProjectTracking.Application.Employees.Commands.DeleteEmployee

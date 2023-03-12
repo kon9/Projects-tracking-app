@@ -17,8 +17,8 @@ public interface IRepo<T>
     Task<T> GetOneAsync(Guid id);
     Task<T> GetOneAsync(Guid id, CancellationToken cancellationToken);
 
-    Task<IEnumerable<T>> GetAllAsync();
-    Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken);
+    Task<List<T>> GetAllAsync();
+    Task<List<T>> GetAllAsync(CancellationToken cancellationToken);
 
     Task DeleteAsync(Guid id);
     Task DeleteRangeAsync(IEnumerable<Guid> ids);
@@ -28,9 +28,5 @@ public interface IRepo<T>
 
     Task<T> FindUniqueAsync(Expression<Func<T, bool>> predicate);
     Task<T> FindUniqueAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
-
-    Task<bool> ExistAsync(Expression<Func<T, bool>> predicate);
-    Task<bool> ExistAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
-
 
 }

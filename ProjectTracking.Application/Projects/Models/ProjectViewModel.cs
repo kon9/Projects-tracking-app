@@ -1,7 +1,6 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace ProjectTracking.Web.Models
+namespace ProjectTracking.Application.Projects.Models
 {
     public class ProjectViewModel
     {
