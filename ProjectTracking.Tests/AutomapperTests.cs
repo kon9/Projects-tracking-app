@@ -6,7 +6,7 @@ namespace ProjectTracking.Tests
     {
         [Fact]
         [Trait("Automapper", "MapperConfiguration")]
-        public void ItShouldCorrectlyConfigured()
+        public void ItShouldBeCorrectlyConfigured()
         {
             var cfg = MapperRegistration.GetMapperConfiguration();
 

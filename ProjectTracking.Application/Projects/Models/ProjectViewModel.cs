@@ -2,7 +2,8 @@
 
 namespace ProjectTracking.Application.Projects.Models
 {
-    public class ProjectViewModel
+    public class ProjectViewModelRename
+
     {
         [Required]
         [Display(Name = "Project Name")]

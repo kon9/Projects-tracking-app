@@ -5,9 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using ProjectTracking.Application;
 using ProjectTracking.Application.Infrastructure.Mappings.Base;
-using ProjectTracking.Application.Interfaces;
 using ProjectTracking.Data;
-using ProjectTracking.Data.Repository;
 
 namespace ProjectTracking.Web
 {
@@ -21,14 +19,10 @@ namespace ProjectTracking.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(IAutomapper));
-
             services.AddApplication();
             services.AddData(Configuration);
             services.AddRepos();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-
             services.AddControllersWithViews();
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProjectTrackingApi", Version = "v1" });

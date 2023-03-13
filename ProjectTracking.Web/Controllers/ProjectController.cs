@@ -16,10 +16,13 @@ namespace ProjectTracking.Web.Controllers
     public class ProjectController : BaseController
     {
         private readonly IMapper _mapper;
-        public ProjectController(IMapper mapper) => _mapper = mapper;
+        public ProjectController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
 
         [HttpGet]
-        public async Task<ActionResult<List<ProjectViewModel>>> GetAll([FromQuery] GetProjectListQuery query)
+        public async Task<ActionResult<List<ProjectViewModel>>> GetAll([FromQuery] GetPagedProjectListQuery query)
         {
             return Ok(await Mediator.Send(query));
         }
@@ -28,19 +31,17 @@ namespace ProjectTracking.Web.Controllers
         public async Task<ActionResult<ProjectVm>> Get(Guid id)
         {
             var query = new GetProjectQuery { Id = id, };
-            var vm = await Mediator.Send(query);
-            return Ok(vm);
+            return Ok(await Mediator.Send(query));
         }
 
         [HttpPost]
         public async Task<ActionResult<Guid>> Create(CreateProjectDto createProjectDto)
         {
             var command = _mapper.Map<CreateProjectCommand>(createProjectDto);
-            var projectId = await Mediator.Send(command);
-            return Ok(projectId);
+            return Ok(await Mediator.Send(command));
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> Update(UpdateProjectDto updateProjectDto)
         {
             var command = _mapper.Map<UpdateProjectCommand>(updateProjectDto);

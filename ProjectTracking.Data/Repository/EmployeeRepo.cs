@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProjectTracking.Application.Employees.Queries.GetEmployeeList;
 using ProjectTracking.Application.Infrastructure.Exeptions;
+using ProjectTracking.Application.Infrastructure.Helpers;
 using ProjectTracking.Application.Interfaces;
 using ProjectTracking.Core.Models;
 using System;
@@ -16,7 +18,6 @@ public class EmployeeRepo : BaseRepo<Employee>, IEmployeeRepo
         Table = Context.Employees;
     }
 
-
     public async Task AssignEmployeeToProjectAsync(Guid employeeId, Guid projectId, CancellationToken cancellationToken)
     {
         var employee = await Context.Employees.FirstOrDefaultAsync(employee => employee.Id == employeeId, cancellationToken);
@@ -32,6 +33,13 @@ public class EmployeeRepo : BaseRepo<Employee>, IEmployeeRepo
             throw new InvalidOperationException($"Employee with id {employee.Id} is already assigned to project with id {project.Id}.");
 
         employee.Projects.Add(project);
+    }
+
+    public PagedList<Employee> GetPagedEmployees(GetPagedEmployeeListQuery employeeParam)
+    {
+        return PagedList<Employee>.ToPagedList(Table,
+            employeeParam.PageNumber,
+            employeeParam.PageSize);
     }
 
     public async Task RemoveEmployeeFromProject(Guid employeeId, Guid projectId, CancellationToken cancellationToken)

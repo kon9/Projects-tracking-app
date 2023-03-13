@@ -1,4 +1,5 @@
-﻿using ProjectTracking.Application.Infrastructure.Mappings.Base;
+﻿using ProjectTracking.Application.Infrastructure.Helpers;
+using ProjectTracking.Application.Infrastructure.Mappings.Base;
 using ProjectTracking.Application.Projects.Commands.CreateProject;
 using ProjectTracking.Application.Projects.Commands.UpdateProject;
 using ProjectTracking.Application.Projects.Models;
@@ -19,6 +20,7 @@ namespace ProjectTracking.Application.Infrastructure.Mappings
             CreateMap<Project, ProjectVm>();
             CreateMap<CreateProjectDto, CreateProjectCommand>();
             CreateMap<UpdateProjectDto, UpdateProjectCommand>();
+            CreateMap<PagedList<Project>, PagedList<ProjectViewModel>>().ConvertUsing<PagedListConverter<Project, ProjectViewModel>>();
         }
     }
 }
