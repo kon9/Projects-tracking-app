@@ -38,7 +38,7 @@ namespace ProjectTracking.Web.Controllers
         {
             var command = _mapper.Map<UpdateEmployeeCommand>(updateEmployeeDto);
             await Mediator.Send(command);
-            return NoContent();
+            return Ok();
         }
 
         [HttpPost]

@@ -9,6 +9,6 @@ namespace ProjectTracking.Application.Projects.Commands.CreateProject
         public string PerformerCompanyName { get; set; }
         public int ProjectPriority { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

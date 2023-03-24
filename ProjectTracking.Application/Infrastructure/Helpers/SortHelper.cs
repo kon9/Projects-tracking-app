@@ -1,7 +1,7 @@
-﻿using System.Linq.Dynamic.Core;
+﻿using ProjectTracking.Application.Interfaces;
+using System.Linq.Dynamic.Core;
 using System.Reflection;
 using System.Text;
-using ProjectTracking.Application.Interfaces;
 
 namespace ProjectTracking.Application.Infrastructure.Helpers;
 

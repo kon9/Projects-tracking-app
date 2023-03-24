@@ -8,25 +8,13 @@ namespace ProjectTracking.Core.Interfaces;
 
 public interface IRepo<T>
 {
-    Task<Guid> AddAsync(T entity);
-    Task<Guid> AddAsync(T entity, CancellationToken cancellationToken);
-
-    Task<IEnumerable<Guid>> AddRangeAsync(IEnumerable<T> entities);
-    Task<IEnumerable<Guid>> AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken);
-
-    Task<T> GetOneAsync(Guid id);
-    Task<T> GetOneAsync(Guid id, CancellationToken cancellationToken);
-
-    Task<List<T>> GetAllAsync();
-    Task<List<T>> GetAllAsync(CancellationToken cancellationToken);
-
+    Task<Guid> AddAsync(T entity, CancellationToken cancellationToken = default);
+    Task<IEnumerable<Guid>> AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
+    Task<T> GetOneAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<List<T>> GetAllAsync( CancellationToken cancellationToken = default);
     Task DeleteAsync(Guid id);
     Task DeleteRangeAsync(IEnumerable<Guid> ids);
-
-    Task<List<T>> FindByAsync(Expression<Func<T, bool>> predicate);
-    Task<List<T>> FindByAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
-
-    Task<T> FindUniqueAsync(Expression<Func<T, bool>> predicate);
-    Task<T> FindUniqueAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
+    Task<List<T>> FindByAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
+    Task<T> FindUniqueAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
 
 }

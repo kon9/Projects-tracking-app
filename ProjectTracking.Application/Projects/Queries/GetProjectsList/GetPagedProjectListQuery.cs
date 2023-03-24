@@ -9,7 +9,7 @@ public class GetPagedProjectListQuery : QueryStringParameters, IRequest<PagedLis
     {
         OrderBy = "ProjectPriority";
     }
-    public DateTime MinYearOfStart { get; set; }
+    public DateTime MinYearOfStart { get; set; } = new DateTime(2000, 1, 1);
     public DateTime MaxYearOfStart { get; set; } = DateTime.Now;
     public int MinPriority { get; set; }
 

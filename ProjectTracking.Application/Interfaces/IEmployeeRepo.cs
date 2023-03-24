@@ -8,6 +8,6 @@ namespace ProjectTracking.Application.Interfaces;
 public interface IEmployeeRepo : IRepo<Employee>
 {
     PagedList<Employee> GetPagedEmployees(GetPagedEmployeeListQuery projectParam);
-    Task AssignEmployeeToProjectAsync(Guid employeeId, Guid projectId, CancellationToken cancellationToken);
-    Task RemoveEmployeeFromProject(Guid employeeId, Guid projectId, CancellationToken cancellationToken);
+    Task AssignEmployeeToProjectAsync(Guid employeeId, Guid projectId, CancellationToken cancellationToken = default);
+    Task RemoveEmployeeFromProject(Guid employeeId, Guid projectId, CancellationToken cancellationToken = default);
 }
