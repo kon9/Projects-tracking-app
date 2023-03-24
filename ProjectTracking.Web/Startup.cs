@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using ProjectTracking.Application;
 using ProjectTracking.Application.Infrastructure.Mappings.Base;
 using ProjectTracking.Data;
+using ProjectTracking.Web.Middleware;
 
 namespace ProjectTracking.Web
 {
@@ -31,6 +32,7 @@ namespace ProjectTracking.Web
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCustomExceptionHandler();
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProjectTrackingApi v1"));
