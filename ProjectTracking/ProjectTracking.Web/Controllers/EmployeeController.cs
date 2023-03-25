@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectTracking.Application.Employees.Commands.AssignEmployeeToProject;
 using ProjectTracking.Application.Employees.Commands.CreateEmployee;
+using ProjectTracking.Application.Employees.Commands.DeleteEmployee;
 using ProjectTracking.Application.Employees.Commands.RemoveEmployeeFromProject;
 using ProjectTracking.Application.Employees.Commands.UpdateEmployee;
 using ProjectTracking.Application.Employees.Models;
@@ -13,6 +15,7 @@ namespace ProjectTracking.Web.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class EmployeeController : BaseController
     {
 
@@ -41,6 +44,14 @@ namespace ProjectTracking.Web.Controllers
             return Ok();
         }
 
+        [HttpDelete]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            var command = new DeleteEmployeeCommand { Id = id };
+            await Mediator.Send(command);
+            return Ok();
+        }
+
         [HttpPost]
         public async Task<ActionResult> AssignEmployeeToProject(AssignEmployeeToProjectCommand assignEmployee)
         {
@@ -54,5 +65,11 @@ namespace ProjectTracking.Web.Controllers
             await Mediator.Send(removeEmployeeCommand);
             return Ok();
         }
+
+        /*[HttpGet]
+        public async Task<ActionResult<List<EmployeeVm>>> GetAll()
+        {
+            return Ok(await Mediator.Send(new GetEmployeesQuery()));
+        }*/
     }
 }

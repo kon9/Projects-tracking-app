@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using ProjectTracking.Identity;
 using ProjectTracking.Identity.Data;
 using ProjectTracking.Identity.Models;
@@ -32,13 +33,15 @@ builder.Services.AddIdentityServer()
 
 builder.Services.ConfigureApplicationCookie(cfg =>
 {
-    cfg.Cookie.Name = "Projects.Identity.Coockie";
-    cfg.LoginPath = "Auth/Login";
+    cfg.Cookie.Name = "Projects.Identity.Cookie";
+    cfg.LoginPath = "/Auth/Login";
     cfg.LogoutPath = "/Auth/Logout";
 });
 
-var app = builder.Build();
+builder.Services.AddControllersWithViews();
 
+
+var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var serviceProvider = scope.ServiceProvider;
@@ -53,9 +56,16 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(e, "An error occurred while app initialization");
     }
 }
-
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+               Path.Combine(Directory.GetCurrentDirectory(), "Styles")),
+    RequestPath = "/styles"
+});
+app.UseRouting();
 app.UseIdentityServer();
-
-app.MapGet("/", () => "Hello World!");
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapDefaultControllerRoute();
+});
 app.Run();

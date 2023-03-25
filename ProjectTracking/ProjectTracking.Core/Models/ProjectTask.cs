@@ -22,7 +22,7 @@ namespace ProjectTracking.Core.Models
 
         [Required]
         [Range(0, 100, ErrorMessage = "Invalid priority")]
-        public int Priorty { get; set; }
+        public int Priority { get; set; }
 
         [Required]
         public Guid TaskAuthorId { get; set; }

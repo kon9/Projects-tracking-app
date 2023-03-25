@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,16 @@ namespace ProjectTracking.Web
             services.AddData(Configuration);
             services.AddRepos();
             services.AddControllersWithViews();
+            services.AddAuthentication(cfg =>
+            {
+                cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer("Bearer", cfg =>
+            {
+                cfg.Authority = "https://localhost:44349/";
+                cfg.Audience = "ProjectsWebAPI";
+                cfg.RequireHttpsMetadata = false;
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProjectTrackingApi", Version = "v1" });
@@ -43,6 +54,8 @@ namespace ProjectTracking.Web
             app.UseRouting();
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

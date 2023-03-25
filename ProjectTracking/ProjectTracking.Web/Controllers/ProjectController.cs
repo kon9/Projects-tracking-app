@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectTracking.Application.Projects.Commands.CreateProject;
 using ProjectTracking.Application.Projects.Commands.UpdateProject;
@@ -13,6 +14,8 @@ using ProjectViewModel = ProjectTracking.Application.Projects.Queries.GetProject
 namespace ProjectTracking.Web.Controllers
 {
     [Route("api/[controller]/[action]")]
+    [ApiController]
+    [Authorize]
     public class ProjectController : BaseController
     {
         private readonly IMapper _mapper;
