@@ -2,7 +2,7 @@
 
 namespace ProjectTracking.Application.Projects.Models
 {
-    public class ProjectViewModelRename
+    public class ProjectViewModelRename//TODO Do smth with this Project view model
 
     {
         [Required]

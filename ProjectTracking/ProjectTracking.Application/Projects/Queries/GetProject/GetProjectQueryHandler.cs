@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using ProjectTracking.Application.Infrastructure.Exeptions;
 using ProjectTracking.Application.Interfaces;
-using ProjectTracking.Core.Models;
 
 namespace ProjectTracking.Application.Projects.Queries.GetProject
 {
@@ -19,13 +17,7 @@ namespace ProjectTracking.Application.Projects.Queries.GetProject
 
         public async Task<ProjectVm> Handle(GetProjectQuery request, CancellationToken cancellationToken)
         {
-
             var project = await _projectRepo.GetProjectWithEmployees(request.Id);
-            if (project == null)
-            {
-                throw new NotFoundException(nameof(Project), request.Id);
-            }
-
             return _mapper.Map<ProjectVm>(project);
         }
     }
