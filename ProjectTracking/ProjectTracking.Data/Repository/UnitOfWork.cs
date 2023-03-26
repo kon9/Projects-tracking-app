@@ -10,7 +10,7 @@ public class UnitOfWork : IUnitOfWork
 
     public UnitOfWork(ProjectsDbContext context) => this.context = context;
 
-    public Task<int> SaveAsync(CancellationToken cancellationToken)
+    public Task<int> SaveAsync(CancellationToken cancellationToken = default)
     {
         return context.SaveChangesAsync(cancellationToken);
     }
